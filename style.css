@@ -21,6 +21,12 @@
 .form-group {
   padding-bottom: 16px;
 }
+.form-group input {
+  margin: 8px;
+}
+input {
+  cursor: pointer;
+}
 input[type="text"],
 [type="number"] {
   border: 1px solid;
@@ -31,8 +37,14 @@ input[type="text"],
   color: #1d1d1f;
   text-align: center;
 }
-.form-group input {
-  margin: 8px;
+textarea {
+  border: 1px solid;
+  width: 100%;
+  height: 4em;
+  border-color: #86868b;
+  border-radius: 12px;
+  color: #1d1d1f;
+  text-align: center;
 }
 button {
   padding: 1em;
@@ -43,6 +55,6 @@ button {
   color: white;
   width: 40%;
 }
-button:hover{
-      background-color: #006edb;
+button:hover {
+  background-color: #006edb;
 }
