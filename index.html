@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web-Dev-101</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form action="">
+        <h2>Simple Contact Form</h2>
+        <div class="form-group">
+          <label for="firstname">Your Firstname : </label>
+          <input type="text" name="firstname" id="firstname" />
+        </div>
+        <div class="form-group">
+          <label for="lastname">Your Lastname : </label>
+          <input type="text" name="lastname" id="lastname" />
+        </div>
+        <div class="form-group">
+          <label for="age">Your Age </label>
+          <input type="number" name="age" id="age" min="1" max="100" />
+        </div>
+        <div class="form-group">
+          <label for="gender">Your Gender </label>
+          <input type="radio" name="gender" id="gender" />Male
+          <input type="radio" name="gender" id="gender" />Female
+          <input type="radio" name="gender" id="gender" />Other
+        </div>
+        <div class="form-group">
+          <label for="interest">Your interest </label>
+          <input type="checkbox" name="interest" id="interest" />Book
+          <input type="checkbox" name="interest" id="interest" />Video
+          <input type="checkbox" name="interest" id="interest" />Game
+          <input type="checkbox" name="interest" id="interest" />Code
+        </div>
+        <button>Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

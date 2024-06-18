@@ -1,0 +1,48 @@
+@font-face {
+  font-family: kanit;
+  src: url(./Kanit/Kanit-Regular.ttf);
+}
+* {
+  font-family: kanit;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+.container h2 {
+  padding-bottom: 16px;
+}
+.form-group {
+  padding-bottom: 16px;
+}
+input[type="text"],
+[type="number"] {
+  border: 1px solid;
+  width: 100%;
+  height: 3em;
+  border-color: #86868b;
+  border-radius: 12px;
+  color: #1d1d1f;
+  text-align: center;
+}
+.form-group input {
+  margin: 8px;
+}
+button {
+  padding: 1em;
+  border: 1px solid;
+  border-color: #86868b;
+  background-color: #0071e3;
+  border-radius: 12px;
+  color: white;
+  width: 40%;
+}
+button:hover{
+      background-color: #006edb;
+}
