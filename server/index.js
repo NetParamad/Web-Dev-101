@@ -6,210 +6,135 @@ const cors = require("cors");
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
-const port = 8000;
-// let users = [];
-// let counter = 0;
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+let port = process.env.PORT || 8000;
+
+app.listen(port, async () => {
+  console.log(`Server started on port ${port}`);
+  await connectDB();
+});
 
 let conn = null;
 
-const initMySQL = async () => {
-  conn = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "web_dev_101",
-    port: 3306,
-  });
+const connectDB = async () => {
+  if (!conn) {
+    conn = await mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "root",
+      database: "web_dev_101",
+      port: 3306,
+    });
+  }
 };
 
-// app.get("/database", (req, res) => {
-//   mysql
-//     .createConnection({
-//       host: "localhost",
-//       user: "root",
-//       password: "",
-//       database: "web_dev_101",
-//       port: 3306,
-//     })
-//     .then((conn) => {
-//       conn
-//         .query("SELECT * FROM users")
-//         .then(([rows, fields]) => {
-//           res.json(rows);
-//         })
-//         .catch((err) => {
-//           console.log("Error fetching users: ", err.massage);
-//           res.status(500).json({ error: "Error fetching users" });
-//         });
-//     });
-// });
-
-// app.get("/database-new", async (req, res) => {
-//   try {
-//     const conn = await mysql.createConnection({
-//       host: "localhost",
-//       user: "root",
-//       password: "",
-//       database: "web_dev_101",
-//       port: 3306,
-//     });
-//     const resulte = await conn.query("SELECT * FROM users");
-//     res.json(resulte[0]);
-//   } catch (error) {
-//     console.log("Error fetching users: ", error.massage);
-//     res.status(500).json({ error: "Error fetching users" });
-//   }
-// });
-
-// app.get("/users", (req, res) => {
-//   const filterUser = users.map((user) => {
-//     // return {
-//     //   name: user.name,
-//     //   nickname: user.nickname,
-//     //   fullname: `${user.name} ${user.nickname}`,
-//     // };
-//   });
-//   res.json(users);
-// });
-
 app.get("/users", async (req, res) => {
-  const result = await conn.query("SELECT * FROM users");
-  res.json(result[0]);
-});
-
-// app.post("/user", (req, res) => {
-//   let user = req.body;
-//   user.id = ++counter;
-//   users.push(user);
-//   res.send({
-//     massage: "User Added",
-//     user: user,
-//   });
-// });
-
-app.post("/user", async (req, res) => {
   try {
-    let user = req.body;
-    const [result] = await conn.query("INSERT INTO users SET ?", user);
-    user.id = result.insertId;
-    res.send({
-      massage: "User Added",
-      user: user,
+    const [rows] = await conn.query("SELECT * FROM users");
+    res.send(rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "something went wrong",
     });
-  } catch (error) {
-    console.log("Error adding user: ", error.massage);
-    res.status(500).json({ error: "Error adding user" });
   }
 });
 
-// app.get("/user/:id", (req, res) => {
-//   let id = req.params.id;
-//   let selectedUser = users.find((user) => user.id == id);
-//   res.json(selectedUser);
-// });
-
-app.get("/user/:id", async (req, res) => {
+app.get("/users/:id", async (req, res) => {
   try {
-    let id = req.params.id;
+    const { id } = req.params;
     const [rows] = await conn.query("SELECT * FROM users WHERE id = ?", [id]);
-    if (rows.length === 0) {
-      res.status(404).json({ error: "User not found" });
-    } else {
-      res.json(rows[0]);
+    if(rows.length === 0) {
+      throw { statusCode: 404, message: "user not found" };
     }
-  } catch (error) {
-    console.log("Error fetching user: ", error.massage);
-    res.status(500).json({ error: "Error fetching user" });
-  }
-});
-
-// app.put("/user/:id", (req, res) => {
-//   let id = req.params.id;
-//   let updateUser = req.body;
-//   let selectedUser = users.findIndex((user) => user.id == id);
-//   users[selectedUser].name = updateUser.name || users[selectedUser].name;
-//   users[selectedUser].nickname =
-//     updateUser.nickname || users[selectedUser].nickname;
-//   res.json({
-//     massage: "User Updated",
-//     data: {
-//       user: updateUser,
-//       indexUpdate: selectedUser,
-//     },
-//   });
-// });
-
-// app.put("/user/:id", async (req, res) => {
-//   try {
-//     let id = req.params.id;
-//     let updateUser = req.body;
-//     const [result] = await conn.query("UPDATE users SET ? WHERE id = ?", [
-//       updateUser,
-//       id,
-//     ]);
-//     res.json({
-//       massage: "User Updated",
-//       data: {
-//         user: updateUser,
-//         indexUpdate: id,
-//       },
-//     });
-//   } catch (error) {
-//     console.log("Error updating user: ", error.massage);
-//     res.status(500).json({ error: "Error updating user" });
-//   }
-// })
-
-// app.patch("/user/:id", (req, res) => {
-//   let id = req.params.id;
-//   let updateUser = req.body;
-//   let selectedUser = users.findIndex((user) => user.id == id);
-//   if (updateUser.name) {
-//     users[selectedUser].name = updateUser.name;
-//   }
-//   if (updateUser.nickname) {
-//     users[selectedUser].nickname = updateUser.nickname;
-//   }
-//   res.json({
-//     massage: "User Updated",
-//     data: {
-//       user: updateUser,
-//       indexUpdate: selectedUser,
-//     },
-//   });
-// });
-
-// app.delete("/user/:id", (req, res) => {
-//   let id = req.params.id;
-//   let selectedUser = users.findIndex((user) => user.id == id);
-//   users.splice(selectedUser, 1);
-//   res.json({
-//     massage: "User Deleted",
-//     data: {
-//       indexDelete: selectedUser,
-//     },
-//   });
-// });
-
-app.delete("/user/:id", async (req, res) => {
-  try {
-    let id = req.params.id;
-    const [result] = await conn.query("DELETE FROM users WHERE id = ?", [id]);
-    res.json({
-      massage: "User Deleted",
-      data: {
-        indexDelete: id,
-      },
+    res.send(rows);
+  } catch (err) {
+    console.log(err);
+    let statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+      message: "something went wrong",
     });
-  } catch (error) {
-    console.log("Error deleting user: ", error.massage);
-    res.status(500).json({ error: "Error deleting user" });
   }
 });
 
-app.listen(port, async (req, res) => {
-  await initMySQL();
-  console.log("http://localhost:" + port);
+const validateData = (userData) => {
+  let errors = [];
+  if (!userData.firstname) {
+    errors.push("firstname is required");
+  }
+  if (!userData.lastname) {
+    errors.push("lastname is required");
+  }
+  if (!userData.age) {
+    errors.push("age is required");
+  }
+  if (!userData.gender) {
+    errors.push("gender is required");
+  }
+  if (!userData.interest) {
+    errors.push("interest is required");
+  }
+  if (!userData.description) {
+    errors.push("description is required");
+  }
+  return errors;
+};
+
+app.post("/users", async (req, res) => {
+  try {
+    const user = req.body;
+    const errors = validateData(user);
+    if (errors.length > 0) {
+      throw { 
+          message: "invalid data",
+          errors: errors
+       };
+    }
+    const [rows] = await conn.query('INSERT INTO users SET ?', user);
+    res.json({
+      message : "Inserted successfully",
+      data : rows[0],
+    });
+  } catch (err) {
+    const errorMessage = err.message || "something went wrong";
+    const errors = err.errors || [];
+    res.status(500).json({
+      message: errorMessage,
+      errors: errors
+    });
+  }
 });
+
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateUser = req.body;
+
+    const [rows] = await conn.query("UPDATE users SET ? WHERE id = ?",[updateUser, id]);
+    res.send(rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "something went wrong",
+    });
+  }
+});
+
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await conn.query("DELETE FROM users WHERE id = ?", [id]);
+    res.send(rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "something went wrong",
+    });
+  }
+});
+

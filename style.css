@@ -3,9 +3,8 @@
   src: url(./Kanit/Kanit-Regular.ttf);
 }
 * {
-  font-family: kanit;
-  padding: 0;
-  margin: 0;
+  font-family: kanit; 
+
   font-size: 16px;
 }
 .container {
@@ -50,11 +49,28 @@ button {
   padding: 1em;
   border: 1px solid;
   border-color: #86868b;
-  background-color: #0071e3;
+  background-color: #4285F4;
   border-radius: 12px;
   color: white;
   width: 40%;
 }
 button:hover {
-  background-color: #006edb;
+  background-color: #4285F4;
+}
+
+.message {
+  background-color: #86868b;
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  display: none; 
+  text-align: left;
+}
+.message.error {
+  background-color: lightcoral;
+  display: block;
+}
+.message.success {
+  background-color: #0F9D58;
+display: block;
 }

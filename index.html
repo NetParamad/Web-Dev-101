@@ -24,9 +24,9 @@
         </div>
         <div class="form-group">
           <label for="gender">Your Gender </label>
-          <input type="radio" name="gender" />Male
-          <input type="radio" name="gender" />Female
-          <input type="radio" name="gender" />Other
+          <input type="radio" name="gender" value="male" />Male
+          <input type="radio" name="gender" value="female" />Female
+          <input type="radio" name="gender" value="other" />Other
         </div>
         <div class="form-group">
           <label>Your interest </label>
@@ -38,9 +38,14 @@
         <div class="form-group">
           <textarea name="description"></textarea>
         </div>
+        <div class="form-group">
+          <div id="message" class="message"></div>
+          <a href="./user.html">Update & Delete User</a>
+        </div>
         <button onclick="submitData()">Submit</button>
       </div>
     </div>
     <script src="./main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </body>
 </html>
