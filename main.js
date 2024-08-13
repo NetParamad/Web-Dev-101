@@ -42,7 +42,7 @@ window.onload = async () => {
     let lastNameDOM = document.querySelector("input[name=lastname]");
     let ageDOM = document.querySelector("input[name=age]");
     let descriptionDOM = document.querySelector("textarea[name=description]");
-    console.log(user);
+    // console.log(user);
     firstNameDOM.value = user.firstname;
     lastNameDOM.value = user.lastname;
     ageDOM.value = user.age;
